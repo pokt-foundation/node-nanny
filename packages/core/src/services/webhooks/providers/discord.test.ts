@@ -1,6 +1,6 @@
-import { Service as DiscordService } from './service';
-import { NodesModel } from '../../models';
-import { connect, disconnect } from '../../db';
+import { Service as DiscordService } from './discord';
+import { NodesModel } from '../../../models';
+import { connect, disconnect } from '../../../db';
 
 test.skip('Discord Test', async () => {
   const discordService = new DiscordService();

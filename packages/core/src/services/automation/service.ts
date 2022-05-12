@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { UpdateQuery } from 'mongoose';
 
-import { Service as DiscordService } from '../discord';
+import { Service as WebhookService } from '../webhooks';
 import { ELoadBalancerStatus } from '../event/types';
 import {
   IChain,
@@ -82,7 +82,7 @@ export class Service extends BaseService {
 
       const node = await this.getNode(id);
 
-      if (!nodeInput.frontend) await new DiscordService().addWebhookForNode(node);
+      if (!nodeInput.frontend) await new WebhookService().addWebhookForNode(node);
       if (restart) await this.restartMonitor();
 
       return node;

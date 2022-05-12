@@ -1,8 +1,8 @@
 import { Client, Intents, CategoryChannel, Guild as Server } from 'discord.js';
 
-import { INode, WebhookModel } from '../../models';
+import { INode, WebhookModel } from '../../../models';
 
-import env from '../../environment';
+import env from '../../../environment';
 
 export class Service {
   private client: Client;

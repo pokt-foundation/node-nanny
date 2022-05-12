@@ -1,4 +1,5 @@
 type IStringVars =
+  | 'ALERT_PROVIDER'
   | 'DD_API_KEY'
   | 'DISCORD_SERVER_ID'
   | 'DISCORD_TOKEN'
@@ -6,7 +7,8 @@ type IStringVars =
   | 'MONITOR_LOGGER'
   | 'MONITOR_TEST_DOMAIN'
   | 'PAGER_DUTY_API_KEY'
-  | 'REDIS_HOST';
+  | 'REDIS_HOST'
+  | 'SLACK_TOKEN';
 type INumberVars =
   | 'ALERT_RETRIGGER_THRESHOLD'
   | 'ALERT_TRIGGER_THRESHOLD'
@@ -19,6 +21,7 @@ type IBooleanVars = 'PNF' | 'MONITOR_TEST';
 type IEnvVars = IStringVars | INumberVars | IBooleanVars;
 
 const ENV_VARS: { [variable: string]: () => string | number | boolean } = {
+  ALERT_PROVIDER: () => process.env.ALERT_PROVIDER || 'discord',
   DD_API_KEY: () => process.env.DD_API_KEY,
   DISCORD_SERVER_ID: () => process.env.DISCORD_SERVER_ID,
   DISCORD_TOKEN: () => process.env.DISCORD_TOKEN,
@@ -27,6 +30,7 @@ const ENV_VARS: { [variable: string]: () => string | number | boolean } = {
   MONITOR_TEST_DOMAIN: () => process.env.MONITOR_TEST_DOMAIN,
   PAGER_DUTY_API_KEY: () => process.env.PAGER_DUTY_API_KEY,
   REDIS_HOST: () => process.env.REDIS_HOST,
+  SLACK_TOKEN: () => process.env.SLACK_TOKEN,
 
   ALERT_RETRIGGER_THRESHOLD: () => Number(process.env.ALERT_RETRIGGER_THRESHOLD || 60),
   ALERT_TRIGGER_THRESHOLD: () => Number(process.env.ALERT_TRIGGER_THRESHOLD || 6),
