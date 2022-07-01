@@ -225,7 +225,7 @@ export class Service extends BaseService {
   }
 
   private async toggleServer({ node, enable }: IToggleServerParams): Promise<void> {
-    const { backend, chain, dispatch, host, loadBalancers, server } = node;
+    const { backend, chain, dispatch, host, loadBalancers, muted, server } = node;
 
     try {
       const serverToggled = enable /* Enable or Disable Server */
@@ -239,30 +239,36 @@ export class Service extends BaseService {
           dispatch,
         });
 
+        if (!muted) {
+          const { title, message } = this.alert.getRotationMessage(
+            node,
+            enable,
+            'success',
+            nodesOnline,
+            nodesTotal,
+          );
+
+          await this.sendMessage(
+            { title, message, chain: chain.name, location: host.location.name },
+            EErrorStatus.INFO,
+          );
+        }
+      }
+    } catch (error) {
+      if (!muted) {
         const { title, message } = this.alert.getRotationMessage(
           node,
           enable,
-          'success',
-          nodesOnline,
-          nodesTotal,
+          'error',
+          null,
+          error,
         );
+
         await this.sendMessage(
           { title, message, chain: chain.name, location: host.location.name },
-          EErrorStatus.INFO,
+          EErrorStatus.ERROR,
         );
       }
-    } catch (error) {
-      const { title, message } = this.alert.getRotationMessage(
-        node,
-        enable,
-        'error',
-        null,
-        error,
-      );
-      await this.sendMessage(
-        { title, message, chain: chain.name, location: host.location.name },
-        EErrorStatus.ERROR,
-      );
     }
   }
 
